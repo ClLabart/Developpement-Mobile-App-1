@@ -1,4 +1,4 @@
-import { Button, Text } from "react-native";
+import { Button, SafeAreaView, Text } from "react-native";
 import { useEffect, useState } from 'react';
 
 export function Counter({navigation}) {
@@ -13,11 +13,11 @@ export function Counter({navigation}) {
     }
 
     return (
-        <>
+        <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>{Counter}</Text>
             <Button title="+" onPress={Increment}/>
             <Button title="-" onPress={Decrement}/>
             <Button title="test" onPress={() => {navigation.navigate('Test')}}/>
-        </>
+        </SafeAreaView>
     );
 }
