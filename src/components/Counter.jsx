@@ -17,7 +17,7 @@ export function Counter({navigation}) {
             <Text>{Counter}</Text>
             <Button title="+" onPress={Increment}/>
             <Button title="-" onPress={Decrement}/>
-            <Button title="test" onPress={() => {navigation.navigate('Test')}}/>
+            <Button title="test" onPress={() => {navigation.navigate('CharactersList')}}/>
         </SafeAreaView>
     );
 }

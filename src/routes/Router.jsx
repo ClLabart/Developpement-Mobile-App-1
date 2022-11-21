@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Counter } from "../components/Counter";
-import { Test } from "../components/Test";
+import { CharactersList } from "../screens/Characters/CharactersList";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createBottomTabNavigator();
@@ -29,10 +29,10 @@ export function Router() {
                 }}
             />
             <Tab.Screen
-                name="Test"
-                component={Test}
+                name="CharactersList"
+                component={CharactersList}
                 options={{
-                    tabBarLabel: "Updates",
+                    tabBarLabel: "Pokémons",
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="bell"

@@ -7,8 +7,9 @@ import {
     Image,
 } from "react-native";
 import { useEffect, useState } from "react";
+import { Card } from "../../components/Card";
 
-export function Test() {
+export function CharactersList() {
     const [isLoading, setLoading] = useState(true);
     const [dataset, setDataset] = useState([]);
 
@@ -22,32 +23,16 @@ export function Test() {
         } catch (error) {
             console.error(error);
         } finally {
-            fetchDetails();
+            setLoading(false);
         }
     };
-
-    // const fetchDetails = async () => {
-    //     dataset.map(async (pokemon, i) => {
-    //         try {
-    //             const response = await fetch(pokemon.url);
-    //             const json = await response.json();
-    //             // setDataset(...dataset[index].image = json.sprites.front_default);
-    //             // pokemon[image].push(json.sprites.front_default);
-    //             console.log(dataset[i]);
-    //             setDataset(dataset[i].push({image: json.sprites.front_default}));
-    //         } catch (error) {
-    //             console.error(error);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     });
-    // };
 
     useEffect(() => {
         fetchData();
     }, []);
 
     return (
+        //rajouter une navigation par stack pour accéder aux détails du pok'mon
         <SafeAreaView
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -58,14 +43,9 @@ export function Test() {
                 // Faire un component passer :item puis fetch les détails dans avoir la photo dans le nouvel élément
                 <FlatList
                     data={dataset}
-                    // keyExtractor={({ name }, url) => id}
-                    renderItem={({ pokemon }) => (
-                        <>
-                            <Text>
-                                {pokemon.name}, {pokemon.url} :{" "}
-                            </Text>
-                            <Image style={styles.tinyLogo} source={{uri: pokemon.image}}/>
-                        </>
+                    // keyExtractor={({dataset.name}, url) => id}
+                    renderItem={( obj ) => (
+                        <Card name={obj.name} />
                     )}
                 />
             )}
