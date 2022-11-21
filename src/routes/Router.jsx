@@ -40,7 +40,6 @@ export function Router() {
                             size={size}
                         />
                     ),
-                    tabBarBadge: 3,
                 }}
             />
         </Tab.Navigator>

@@ -45,7 +45,8 @@ export function CharactersList() {
                     data={dataset}
                     // keyExtractor={({dataset.name}, url) => id}
                     renderItem={( obj ) => (
-                        <Card name={obj.name} />
+                        // console.log(obj)
+                        <Card pokemon={obj.item} />
                     )}
                 />
             )}
