@@ -15,14 +15,27 @@ export function CharactersList() {
     const [dataset, setDataset] = useState([]);
     const [offset, setOffset] = useState(0);
 
-    const fetchData = async () => {
+    // const fetchData = async () => {
+        // try {
+            // const response = await fetch(
+                // "https://pokeapi.co/api/v2/pokemon/?limit=20&offset=" + offset
+            // );
+            // const json = await response.json();
+            // setDataset(dataset.concat(json.results));
+        // } catch (error) {
+            // console.error(error);
+        // } finally {
+            // setLoading(false);
+            // setOffset(offset + 20);
+        // }
+    // };
+
+    const getDataFromApi = async () => {
         try {
-            const response = await fetch(
-                "https://pokeapi.co/api/v2/pokemon/?limit=20&offset=" + offset
-            );
-            const json = await response.json();
-            //setDataset(json.results);
-            setDataset(dataset.concat(json.results));
+            await PokemonFetch(offset, 20)
+                .then((data) => {
+                    setDataset(dataset.concat(data));
+                });
         } catch (error) {
             console.error(error);
         } finally {
@@ -32,7 +45,10 @@ export function CharactersList() {
     };
 
     useEffect(() => {
-        fetchData();
+        getDataFromApi();
+        // fetchData();
+        // console.log(await new Promise(PokemonFetch(0,20)));
+        // console.log(PokemonFetch(0,20));
         //console.log(PokemonFetch(0, 20));
         //setDataset(PokemonFetch().then(() => {setLoading(false); console.log(isLoading); console.log(dataset)}));
     }, []);
@@ -49,18 +65,19 @@ export function CharactersList() {
                 // Faire un component passer :item puis fetch les détails dans avoir la photo dans le nouvel élément
                 <FlatList
                     data={dataset}
-                    initialNumToRender = {20}
-                    onEndReachedThreshold = {0.3}
-                    onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false;}}
-                    onEndReached = {() => {
+                    initialNumToRender={20}
+                    onEndReachedThreshold={0.3}
+                    onMomentumScrollBegin={() => {
+                        this.onEndReachedCalledDuringMomentum = false;
+                    }}
+                    onEndReached={() => {
                         if (!this.onEndReachedCalledDuringMomentum) {
-                          fetchData();    // LOAD MORE DATA
-                          this.onEndReachedCalledDuringMomentum = true;
+                            getDataFromApi(); // LOAD MORE DATA
+                            this.onEndReachedCalledDuringMomentum = true;
                         }
-                      }
-                    }                 
+                    }}
                     style={{ width: "100%" }}
-                    keyExtractor={(item, index) => 'key'+index}
+                    keyExtractor={(item, index) => "key" + index}
                     renderItem={(obj) => <Card pokemon={obj.item} />}
                 />
             )}
