@@ -4,17 +4,24 @@ import {
     FlatList,
     Text,
     SafeAreaView,
+    Animated,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { Card } from "../../components/Card";
 import { PokemonFetch } from "../../service/api/Pokemon";
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 export function CharactersList() {
     const [isLoading, setLoading] = useState(true);
     const [dataset, setDataset] = useState([]);
     const [offset, setOffset] = useState(0);
 
+    const y = new Animated.Value(0);
+    const onScroll = Animated.event(
+        [{ nativeEvent: { contentOffset: { y } } }],
+        { useNativeDriver: true }
+    );
 
     const getDataFromApi = async () => {
         try {
@@ -43,7 +50,7 @@ export function CharactersList() {
                 <ActivityIndicator />
             ) : (
                 // Faire un component passer :item puis fetch les détails dans avoir la photo dans le nouvel élément
-                <FlatList
+                <AnimatedFlatList
                     data={dataset}
                     initialNumToRender={20}
                     onEndReachedThreshold={0.3}
@@ -59,7 +66,9 @@ export function CharactersList() {
                     }}
                     style={{ width: "100%" }}
                     keyExtractor={(item, index) => "key" + index}
-                    renderItem={(obj) => <Card pokemon={obj.item} />}
+                    renderItem={(obj) => <Card pokemon={obj.item} y={y} index={obj.index}/>}
+                    scrollEventThrottle={16}
+                    {...{onScroll}}
                 />
             )}
         </SafeAreaView>

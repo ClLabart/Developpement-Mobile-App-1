@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
-import { View, Image, ActivityIndicator, Text, StyleSheet } from "react-native";
+import {
+    View,
+    Image,
+    ActivityIndicator,
+    Text,
+    StyleSheet,
+    Animated,
+    Dimensions,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export function Card({ pokemon }) {
+export const Card_Height = 250;
+const { height: wheight } = Dimensions.get("window");
+export const height = wheight - 64;
+
+export function Card({ pokemon, y, index }) {
     const [isLoading, setLoading] = useState(false);
     const [image, setImage] = useState("");
     const [pokemonId, setPokemonId] = useState("");
@@ -43,12 +55,37 @@ export function Card({ pokemon }) {
     };
 
     useEffect(() => {
+        console.log(index);
         fetchDetails();
         getPokemonId();
     }, []);
 
+    const translateY = Animated.add(y, y.interpolate({
+        inputRange: [0, 0.00001 + index * Card_Height],
+        outputRange: [0, -index * Card_Height],
+        extrapolateRight: "clamp",
+    }));
+
+    const position = Animated.subtract(index * Card_Height, y);
+
+    const isDisappearing = -Card_Height;
+    const isTop = 0;
+    const isBottom = height - Card_Height;
+    const isAppearing = height;
+    const scale = position.interpolate({
+        inputRange: [isDisappearing, isTop, isBottom, isAppearing],
+        outputRange: [0.5, 1, 1, 0.5],
+        extrapolateRight: "clamp"
+    })
+    const opacity = position.interpolate({
+        inputRange: [isDisappearing, isTop, isBottom, isAppearing],
+        outputRange: [0.5, 1, 1, 0.5],
+    })
+
     return (
-        <View style={styles.container}>
+        <Animated.View
+            style={[styles.container, { opacity, transform: [{ translateY }, { scale }] }]}
+        >
             {isLoading ? (
                 <ActivityIndicator />
             ) : (
@@ -69,7 +106,7 @@ export function Card({ pokemon }) {
                     />
                 </>
             )}
-        </View>
+        </Animated.View>
     );
 }
 
@@ -81,6 +118,7 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         borderRadius: 20,
         margin: 20,
+        height: 210
     },
     image: {
         width: 200,
