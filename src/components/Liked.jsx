@@ -3,7 +3,7 @@ import { View, Image, ActivityIndicator, Text, StyleSheet } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PokemonFetchById } from "../service/api/Pokemon";
+import { PokemonFetchByIdOrName } from "../service/api/Pokemon";
 
 export function Liked({ pokemon }) {
     const [isLoading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ export function Liked({ pokemon }) {
 
     const fetchDetails = async () => {
         try {
-            const response = await PokemonFetchById(pokemon);
+            const response = await PokemonFetchByIdOrName(pokemon);
             setImage(response.sprites.front_default);
             setName(response.species.name);
         } catch (error) {
@@ -24,15 +24,19 @@ export function Liked({ pokemon }) {
 
     const delFromFavorites = async () => {
         try {
-            // let response = await AsyncStorage.getItem('favoritesPokmons');
-            // response = response.split(',');
-            // console.log(response);
-            // let index = response.indexOf(pokemon);
-            // response.splice(index, 1);
-            // console.log(response);
-            // let unique = [...new Set(response)];
-            // console.log(unique);
-            // await AsyncStorage.setItem('favoritesPokmons', unique.toString());
+            let response = await AsyncStorage.getItem('favoritesPokmons');
+            if (response !== null) {
+                response = response.split(',');
+            } else {
+                response = [];
+            }
+            console.log(response);
+            let index = response.indexOf(pokemon);
+            response.splice(index, 1);
+            console.log(response);
+            let unique = [...new Set(response)];
+            console.log(unique);
+            await AsyncStorage.setItem('favoritesPokmons', unique.toString());
         } catch (e) {
             console.log(e);
         }

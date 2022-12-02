@@ -2,7 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { Liked } from "../../components/Liked";
-import { PokemonFetchById } from "../../service/api/Pokemon";
 
 export function CharactersLikes() {
     const [dataset, setDataset] = useState([]);
@@ -13,7 +12,9 @@ export function CharactersLikes() {
         try {
             const value = await AsyncStorage.getItem("favoritesPokmons");
             console.log(value);
-            setDataset(value.split(','));
+            if (value !== null) {
+                setDataset(value.split(','));
+            }
         } catch (e) {
             console.error(e);
         } finally {

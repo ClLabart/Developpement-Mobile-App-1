@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { CharactersList } from "../screens/Characters/CharactersList";
 import { CharactersLikes } from "../screens/likes/CharactersLikes";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Search } from "../screens/search/Search";
 
 const Tab = createBottomTabNavigator();
 
@@ -36,6 +37,20 @@ export function Router() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="heart-multiple"
+                            color={color}
+                            size={size}
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Search"
+                component={Search}
+                options={{
+                    tabBarLabel: "Recherche",
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons
+                            name="toy-brick-search"
                             color={color}
                             size={size}
                         />

@@ -28,7 +28,11 @@ export function Card({ pokemon }) {
     const addToFavorites = async () => {
         try {
             let response = await AsyncStorage.getItem('favoritesPokmons');
-            response = response.split(',');
+            if (response !== null) {
+                response = response.split(',');
+            } else {
+                response = [];
+            }
             response.push(pokemonId);
             console.log(response);
             let unique = [...new Set(response)];
