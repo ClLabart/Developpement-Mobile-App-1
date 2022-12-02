@@ -4,7 +4,6 @@ import {
     FlatList,
     Text,
     SafeAreaView,
-    Image,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { Card } from "../../components/Card";
@@ -15,27 +14,11 @@ export function CharactersList() {
     const [dataset, setDataset] = useState([]);
     const [offset, setOffset] = useState(0);
 
-    // const fetchData = async () => {
-        // try {
-            // const response = await fetch(
-                // "https://pokeapi.co/api/v2/pokemon/?limit=20&offset=" + offset
-            // );
-            // const json = await response.json();
-            // setDataset(dataset.concat(json.results));
-        // } catch (error) {
-            // console.error(error);
-        // } finally {
-            // setLoading(false);
-            // setOffset(offset + 20);
-        // }
-    // };
-
     const getDataFromApi = async () => {
         try {
-            await PokemonFetch(offset, 20)
-                .then((data) => {
-                    setDataset(dataset.concat(data));
-                });
+            await PokemonFetch(offset, 20).then((data) => {
+                setDataset(dataset.concat(data));
+            });
         } catch (error) {
             console.error(error);
         } finally {
@@ -46,11 +29,6 @@ export function CharactersList() {
 
     useEffect(() => {
         getDataFromApi();
-        // fetchData();
-        // console.log(await new Promise(PokemonFetch(0,20)));
-        // console.log(PokemonFetch(0,20));
-        //console.log(PokemonFetch(0, 20));
-        //setDataset(PokemonFetch().then(() => {setLoading(false); console.log(isLoading); console.log(dataset)}));
     }, []);
 
     return (
@@ -68,11 +46,12 @@ export function CharactersList() {
                     initialNumToRender={20}
                     onEndReachedThreshold={0.3}
                     onMomentumScrollBegin={() => {
-                        this.onEndReachedCalledDuringMomentum = false;
+                        this.onEndReachedCalledDuringMomentum = false; // Charger les donneés seulement quand l'utilisateur scroll
                     }}
                     onEndReached={() => {
                         if (!this.onEndReachedCalledDuringMomentum) {
-                            getDataFromApi(); // LOAD MORE DATA
+                            // Si on ne prends pas le scroll les appels se font en boucle puis ça crash 😤
+                            getDataFromApi(); // Charger plus de données
                             this.onEndReachedCalledDuringMomentum = true;
                         }
                     }}

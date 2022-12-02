@@ -1,10 +1,24 @@
 export async function PokemonFetch(offset, limit) {
     try {
-        url = "https://pokeapi.co/api/v2/pokemon/?limit=" + limit + "&offset=" + offset;
+        url =
+            "https://pokeapi.co/api/v2/pokemon/?limit=" +
+            limit +
+            "&offset=" +
+            offset;
         const response = await fetch(url);
         const json = await response.json();
-        const data = json.results;
-        return data;
+        return json.results;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export async function PokemonFetchById(id) {
+    try {
+        url = "https://pokeapi.co/api/v2/pokemon/" + id;
+        const response = await fetch(url);
+        const json = await response.json();
+        return json;
     } catch (error) {
         console.error(error);
     }
