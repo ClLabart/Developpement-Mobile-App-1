@@ -9,10 +9,13 @@ import { useEffect, useState } from "react";
 import { Card } from "../../components/Card";
 import { PokemonFetch } from "../../service/api/Pokemon";
 
+const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
+
 export function CharactersList() {
     const [isLoading, setLoading] = useState(true);
     const [dataset, setDataset] = useState([]);
     const [offset, setOffset] = useState(0);
+
 
     const getDataFromApi = async () => {
         try {
@@ -41,7 +44,7 @@ export function CharactersList() {
                 <ActivityIndicator />
             ) : (
                 // Faire un component passer :item puis fetch les détails dans avoir la photo dans le nouvel élément
-                <FlatList
+                <AnimatedFlatlist
                     data={dataset}
                     initialNumToRender={20}
                     onEndReachedThreshold={0.3}

@@ -1,24 +1,13 @@
 import { useState } from "react";
-import { TextInput } from "react-native";
+import { ActivityIndicator, FlatList, TextInput, View } from "react-native";
+import { Liked } from "../../components/Liked";
 import { PokemonFetchByIdOrName } from "../../service/api/Pokemon";
 
 export function Search() {
-    const [value, onChangeText] = useState("");
-
-    const Searching = async (text) => {
-        onChangeText(text);
-        try {
-            const response = await PokemonFetchByIdOrName(text.toLowerCase());
-            console.log(response);
-        } catch (e) {
-            console.error(e);
-        } finally {
-
-        }
-    };
+    const [value, onChangeText] = useState("bulbasaur");
 
     return (
-        <>
+        <View>
             <TextInput
                 style={{
                     height: 40,
@@ -27,9 +16,9 @@ export function Search() {
                     width: "80%",
                     margin: "auto",
                 }}
-                onChangeText={(text) => Searching(text)}
+                onChangeText={(text) => onChangeText(text)}
                 value={value}
             />
-        </>
+        </View>
     );
 }

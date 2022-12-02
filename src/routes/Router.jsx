@@ -22,7 +22,7 @@ export function Router() {
                     tabBarLabel: "Pokémons",
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
-                            name="google-downasaur"
+                            name="pokeball"
                             color={color}
                             size={size}
                         />
@@ -50,7 +50,7 @@ export function Router() {
                     tabBarLabel: "Recherche",
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
-                            name="toy-brick-search"
+                            name="pokemon-go"
                             color={color}
                             size={size}
                         />
