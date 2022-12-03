@@ -60,31 +60,43 @@ export function Card({ pokemon, y, index }) {
         getPokemonId();
     }, []);
 
-    const translateY = Animated.add(y, y.interpolate({
-        inputRange: [0, 0.00001 + index * Card_Height],
-        outputRange: [0, -index * Card_Height],
-        extrapolateRight: "clamp",
-    }));
-
     const position = Animated.subtract(index * Card_Height, y);
-
     const isDisappearing = -Card_Height;
     const isTop = 0;
     const isBottom = height - Card_Height;
     const isAppearing = height;
+
+    const translateY = Animated.add(
+        Animated.add(
+            y,
+            y.interpolate({
+                inputRange: [0, 0.00001 + index * Card_Height],
+                outputRange: [0, -index * Card_Height],
+                extrapolateRight: "clamp",
+            })
+        ),
+        position.interpolate({
+            inputRange: [isBottom, isAppearing],
+            outputRange: [0, -Card_Height / 4],
+            extrapolate: "clamp",
+        })
+    );
     const scale = position.interpolate({
         inputRange: [isDisappearing, isTop, isBottom, isAppearing],
         outputRange: [0.5, 1, 1, 0.5],
-        extrapolateRight: "clamp"
-    })
+        extrapolateRight: "clamp",
+    });
     const opacity = position.interpolate({
         inputRange: [isDisappearing, isTop, isBottom, isAppearing],
         outputRange: [0.5, 1, 1, 0.5],
-    })
+    });
 
     return (
         <Animated.View
-            style={[styles.container, { opacity, transform: [{ translateY }, { scale }] }]}
+            style={[
+                styles.container,
+                { opacity, transform: [{ translateY }, { scale }] },
+            ]}
         >
             {isLoading ? (
                 <ActivityIndicator />
@@ -118,7 +130,7 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         borderRadius: 20,
         margin: 20,
-        height: 210
+        height: 210,
     },
     image: {
         width: 200,
