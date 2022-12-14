@@ -7,6 +7,12 @@ export async function PokemonFetch(offset, limit) {
             offset;
         const response = await fetch(url);
         const json = await response.json();
+        // retourner une pagination
+        // count (1154 / 20)
+        // page = offset / 20
+        // next = pagination + 20
+        // prev = pagination - 20
+        // voir pour réinitialiser la liste déroulante
         return json.results;
     } catch (error) {
         console.error(error);

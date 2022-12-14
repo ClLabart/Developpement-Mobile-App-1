@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Card_Height = 250;
 const { height: wheight } = Dimensions.get("window");
-export const height = wheight - 64;
+export const height = wheight - 100;
 
 export function Card({ pokemon, y, index }) {
     const [isLoading, setLoading] = useState(false);
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "black",
+        backgroundColor: "red<",
         borderRadius: 20,
         margin: 20,
         height: 210,
@@ -137,6 +137,6 @@ const styles = StyleSheet.create({
         height: 200,
     },
     text: {
-        color: "white",
+        color: "black",
     },
 });
