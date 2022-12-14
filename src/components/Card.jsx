@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Animated,
     Dimensions,
+    TouchableOpacity,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,7 +16,7 @@ export const Card_Height = 250;
 const { height: wheight } = Dimensions.get("window");
 export const height = wheight - 100;
 
-export function Card({ pokemon, y, index }) {
+export function Card({ navigation, pokemon, y, index }) {
     const [isLoading, setLoading] = useState(false);
     const [image, setImage] = useState("");
     const [pokemonId, setPokemonId] = useState("");
@@ -93,31 +94,35 @@ export function Card({ pokemon, y, index }) {
 
     return (
         <Animated.View
+        >
+            <TouchableOpacity
             style={[
                 styles.container,
                 { opacity, transform: [{ translateY }, { scale }] },
             ]}
-        >
-            {isLoading ? (
-                <ActivityIndicator />
-            ) : (
-                <>
-                    <Image
-                        style={styles.image}
-                        source={{ uri: image ? image : null }}
-                    />
-                    <Text style={styles.text}>
-                        {pokemon.name.charAt(0).toUpperCase() +
-                            pokemon.name.slice(1)}
-                    </Text>
-                    <Ionicons
+            onPress={() => navigation.push('')}
+            >
+                {isLoading ? (
+                    <ActivityIndicator />
+                ) : (
+                    <>
+                        <Image
+                            style={styles.image}
+                            source={{ uri: image ? image : null }}
+                        />
+                        <Text style={styles.text}>
+                            {pokemon.name.charAt(0).toUpperCase() +
+                                pokemon.name.slice(1)}
+                        </Text>
+                        {/* <Ionicons
                         onPress={addToFavorites}
                         name="star-outline"
                         size={32}
                         color="yellow"
-                    />
-                </>
-            )}
+                    /> */}
+                    </>
+                )}
+            </TouchableOpacity>
         </Animated.View>
     );
 }
@@ -127,14 +132,15 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "red<",
         borderRadius: 20,
         margin: 20,
         height: 210,
+        borderBottomColor: "black",
+        borderBottomWidth: 15,
     },
     image: {
         width: 200,
-        height: 200,
+        height: 199,
     },
     text: {
         color: "black",
