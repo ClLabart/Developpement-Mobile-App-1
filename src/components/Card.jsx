@@ -119,11 +119,11 @@ export function Card({ pokemon, y, index }) {
                                 pokemon.name.slice(1)}
                         </Text>
                         {/* <Ionicons
-                        onPress={addToFavorites}
-                        name="star-outline"
-                        size={32}
-                        color="black"
-                    /> */}
+                            onPress={addToFavorites}
+                            name="star-outline"
+                            size={32}
+                            color="black"
+                        /> */}
                     </>
                 )}
             </TouchableOpacity>

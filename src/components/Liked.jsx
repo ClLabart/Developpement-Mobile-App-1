@@ -59,7 +59,9 @@ export function Liked({ pokemon }) {
         <View>
             <TouchableOpacity
                 style={styles.container}
-                onPress={() => navigation.navigate("Details")}
+                onPress={() => navigation.navigate("Details", {
+                    pokemonId: pokemon
+                })}
             >
                 {isLoading ? (
                     <ActivityIndicator />
