@@ -8,10 +8,10 @@ export async function PokemonFetch(offset, limit) {
         const response = await fetch(url);
         const json = await response.json();
         // retourner une pagination
-        // count (1154 / 20)
-        // page = offset / 20
-        // next = pagination + 20
-        // prev = pagination - 20
+        // allPages = count / limit
+        // page = offset / limit
+        // next = pagination + limit
+        // prev = pagination - limit
         // voir pour réinitialiser la liste déroulante
         return json.results;
     } catch (error) {
@@ -22,7 +22,6 @@ export async function PokemonFetch(offset, limit) {
 export async function PokemonFetchByIdOrName(id) {
     try {
         url = "https://pokeapi.co/api/v2/pokemon/" + id;
-        console.log(url);
         const response = await fetch(url);
         const json = await response.json();
         return json;

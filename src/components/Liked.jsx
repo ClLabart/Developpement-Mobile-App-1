@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
-import { View, Image, ActivityIndicator, Text, StyleSheet } from "react-native";
+import {
+    View,
+    Image,
+    ActivityIndicator,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+} from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PokemonFetchByIdOrName } from "../service/api/Pokemon";
+import { useNavigation } from "@react-navigation/native";
 
 export function Liked({ pokemon }) {
+    const navigation = useNavigation();
     const [isLoading, setLoading] = useState(false);
     const [image, setImage] = useState("");
     const [name, setName] = useState("");
@@ -24,9 +33,9 @@ export function Liked({ pokemon }) {
 
     const delFromFavorites = async () => {
         try {
-            let response = await AsyncStorage.getItem('favoritesPokmons');
+            let response = await AsyncStorage.getItem("favoritesPokmons");
             if (response !== null) {
-                response = response.split(',');
+                response = response.split(",");
             } else {
                 response = [];
             }
@@ -36,7 +45,7 @@ export function Liked({ pokemon }) {
             console.log(response);
             let unique = [...new Set(response)];
             console.log(unique);
-            await AsyncStorage.setItem('favoritesPokmons', unique.toString());
+            await AsyncStorage.setItem("favoritesPokmons", unique.toString());
         } catch (e) {
             console.log(e);
         }
@@ -47,27 +56,31 @@ export function Liked({ pokemon }) {
     }, []);
 
     return (
-        <View style={styles.container}>
-            {isLoading ? (
-                <ActivityIndicator />
-            ) : (
-                <>
-                    <Image
-                        style={styles.image}
-                        source={{ uri: image ? image : null }}
-                    />
-                    <Text style={styles.text}>
-                        {name.charAt(0).toUpperCase() +
-                            name.slice(1)}
-                    </Text>
-                    <Ionicons
-                        onPress={delFromFavorites}
-                        name="star"
-                        size={32}
-                        color="yellow"
-                    />
-                </>
-            )}
+        <View>
+            <TouchableOpacity
+                style={styles.container}
+                onPress={() => navigation.navigate("Details")}
+            >
+                {isLoading ? (
+                    <ActivityIndicator />
+                ) : (
+                    <>
+                        <Image
+                            style={styles.image}
+                            source={{ uri: image ? image : null }}
+                        />
+                        <Text style={styles.text}>
+                            {name.charAt(0).toUpperCase() + name.slice(1)}
+                        </Text>
+                        <Ionicons
+                            onPress={delFromFavorites}
+                            name="star"
+                            size={32}
+                            color="yellow"
+                        />
+                    </>
+                )}
+            </TouchableOpacity>
         </View>
     );
 }

@@ -11,12 +11,14 @@ import {
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 export const Card_Height = 250;
 const { height: wheight } = Dimensions.get("window");
 export const height = wheight - 100;
 
-export function Card({ navigation, pokemon, y, index }) {
+export function Card({ pokemon, y, index }) {
+    const navigation = useNavigation();
     const [isLoading, setLoading] = useState(false);
     const [image, setImage] = useState("");
     const [pokemonId, setPokemonId] = useState("");
@@ -25,7 +27,7 @@ export function Card({ navigation, pokemon, y, index }) {
         try {
             const response = await fetch(pokemon.url);
             const json = await response.json();
-            setImage(json.sprites.front_default);
+            setImage(json.sprites.other["official-artwork"].front_default);
         } catch (error) {
             console.error(error);
         } finally {
@@ -56,7 +58,6 @@ export function Card({ navigation, pokemon, y, index }) {
     };
 
     useEffect(() => {
-        console.log(index);
         fetchDetails();
         getPokemonId();
     }, []);
@@ -93,14 +94,17 @@ export function Card({ navigation, pokemon, y, index }) {
     });
 
     return (
-        <Animated.View
-        >
+        <Animated.View>
             <TouchableOpacity
-            style={[
-                styles.container,
-                { opacity, transform: [{ translateY }, { scale }] },
-            ]}
-            onPress={() => navigation.push('')}
+                style={[
+                    styles.container,
+                    { opacity, transform: [{ translateY }, { scale }] },
+                ]}
+                onPress={() =>
+                    navigation.navigate("Details", {
+                        pokemonId: pokemonId,
+                    })
+                }
             >
                 {isLoading ? (
                     <ActivityIndicator />
@@ -118,7 +122,7 @@ export function Card({ navigation, pokemon, y, index }) {
                         onPress={addToFavorites}
                         name="star-outline"
                         size={32}
-                        color="yellow"
+                        color="black"
                     /> */}
                     </>
                 )}
@@ -132,11 +136,14 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         alignItems: "center",
+        // justifyContent: "center",
         borderRadius: 20,
         margin: 20,
         height: 210,
         borderBottomColor: "black",
         borderBottomWidth: 15,
+        // backgroundColor: "#F2F2F2",
+        // backgroundColor: "white",
     },
     image: {
         width: 200,
@@ -144,5 +151,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "black",
+        marginLeft: "auto",
+        marginRight: "auto",
     },
 });
