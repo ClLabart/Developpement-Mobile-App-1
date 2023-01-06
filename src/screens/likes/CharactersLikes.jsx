@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { Liked } from "../../components/Liked";
 
-export function CharactersLikes() {
+export function CharactersLikes(props) {
     const [dataset, setDataset] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -13,7 +13,9 @@ export function CharactersLikes() {
             const value = await AsyncStorage.getItem("favoritesPokmons");
             console.log(value);
             if (value !== null) {
-                setDataset(value.split(','));
+                setDataset(value.split(","));
+            } else {
+                setDataset([]);
             }
         } catch (e) {
             console.error(e);
@@ -29,6 +31,16 @@ export function CharactersLikes() {
 
     useEffect(() => {
         getFavorites();
+        // essayer avec use focus effect => use callback
+        // ! use callback met en mémoire la fonction à l'intérieur mettre partout
+        const willFocusSubscription = props.navigation.addListener(
+            "focus",
+            () => {
+                getFavorites();
+            }
+        );
+
+        return willFocusSubscription;
     }, []);
 
     return (
@@ -44,6 +56,7 @@ export function CharactersLikes() {
                         style={{ width: "100%" }}
                         extraData={dataset}
                         renderItem={(obj) => <Liked pokemon={obj.item} />}
+
                     />
                 </>
             )}

@@ -5,6 +5,7 @@ import { CharactersLikes } from "../screens/likes/CharactersLikes";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Search } from "../screens/search/Search";
 import { CardListScreen } from "./RouterCardList";
+import { Profile } from "../screens/Profile/Profile";
 
 const Tab = createBottomTabNavigator();
 
@@ -53,6 +54,20 @@ export function Router() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="pokemon-go"
+                            color={color}
+                            size={size}
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Profile"
+                component={Profile}
+                options={{
+                    tabBarLabel: "Profile",
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons
+                            name="card-account-details"
                             color={color}
                             size={size}
                         />

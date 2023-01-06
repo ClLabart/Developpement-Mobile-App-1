@@ -7,8 +7,10 @@ const Tab = createNativeStackNavigator();
 export function CardListScreen() {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Pokemon list" component={CharactersList} />
-            <Tab.Screen name="Details" component={Details} />
+            <Tab.Screen name="Pokedex" component={CharactersList} />
+            <Tab.Screen name="Détails" component={Details} options={{
+                headerTransparent: true
+            }} />
         </Tab.Navigator>
     );
 }

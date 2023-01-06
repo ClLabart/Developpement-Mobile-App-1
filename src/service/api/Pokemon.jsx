@@ -30,3 +30,20 @@ export async function PokemonFetchByIdOrName(id) {
     }
 }
 
+export async function pokemonFetchWithInfos(id) {
+    try {
+        url = "https://pokeapi.co/api/v2/pokemon/" + id;
+        url2 = "https://pokeapi.co/api/v2/pokemon-species/" + id;
+        const response = await fetch(url);
+        const response2 = await fetch(url2);
+        const json = await response.json();
+        const json2 = await response2.json();
+        const mergedObject = {
+            ...json,
+            ...json2
+        };
+        return mergedObject;
+    } catch (e) {
+        console.error(e);
+    }
+}

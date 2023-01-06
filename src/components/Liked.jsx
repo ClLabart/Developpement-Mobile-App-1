@@ -12,6 +12,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PokemonFetchByIdOrName } from "../service/api/Pokemon";
 import { useNavigation } from "@react-navigation/native";
+import { CharactersLikes } from "../screens/likes/CharactersLikes";
 
 export function Liked({ pokemon }) {
     const navigation = useNavigation();
@@ -32,6 +33,7 @@ export function Liked({ pokemon }) {
     };
 
     const delFromFavorites = async () => {
+        console.log('pokemon : ' + pokemon)
         try {
             let response = await AsyncStorage.getItem("favoritesPokmons");
             if (response !== null) {
@@ -41,6 +43,7 @@ export function Liked({ pokemon }) {
             }
             console.log(response);
             let index = response.indexOf(pokemon);
+            console.log('index : ' + index)
             response.splice(index, 1);
             console.log(response);
             let unique = [...new Set(response)];
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "black",
-        borderRadius: 20,
+        // borderRadius: 20,
         margin: 20,
     },
     image: {

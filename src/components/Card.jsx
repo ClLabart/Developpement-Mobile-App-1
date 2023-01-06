@@ -101,7 +101,7 @@ export function Card({ pokemon, y, index }) {
                     { opacity, transform: [{ translateY }, { scale }] },
                 ]}
                 onPress={() =>
-                    navigation.navigate("Details", {
+                    navigation.navigate("Détails", {
                         pokemonId: pokemonId,
                     })
                 }
@@ -118,12 +118,12 @@ export function Card({ pokemon, y, index }) {
                             {pokemon.name.charAt(0).toUpperCase() +
                                 pokemon.name.slice(1)}
                         </Text>
-                        {/* <Ionicons
+                        <Ionicons
                             onPress={addToFavorites}
-                            name="star-outline"
+                            name="heart-outline"
                             size={32}
                             color="black"
-                        /> */}
+                        />
                     </>
                 )}
             </TouchableOpacity>
