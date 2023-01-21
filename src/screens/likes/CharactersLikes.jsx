@@ -56,6 +56,7 @@ export function CharactersLikes(props) {
                         style={{ width: "100%" }}
                         extraData={dataset}
                         renderItem={(obj) => <Liked pokemon={obj.item} />}
+                        numColumns={2}
 
                     />
                 </>

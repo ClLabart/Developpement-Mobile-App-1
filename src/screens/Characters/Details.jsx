@@ -23,6 +23,9 @@ export function Details({ route, navigation }) {
     const [subscription, setSubscription] = useState(null);
     const [pokemon, setPokemon] = useState({});
     const [isLoading, setLoading] = useState(true);
+    const [isPokmonLiked, setIsPokmonLiked] = useState(false);
+    const [weight, setWeight] = useState("")
+    const [weightLength, setWeightLength] = useState(0)
 
     const _slow = () => Gyroscope.setUpdateInterval(1000);
     const _fast = () => Gyroscope.setUpdateInterval(16);
@@ -49,14 +52,17 @@ export function Details({ route, navigation }) {
         try {
             await pokemonFetchWithInfos(pokemonId).then((data) => {
                 setPokemon(data);
-            });
-            await isLiked(pokemonId).then((data) => {
-                console.log("data");
-                console.log(data);
-            });
+            }).catch((error)=>{
+                console.log("Api call error");
+                alert(error.message);
+             });
         } catch (e) {
             console.error(e);
         } finally {
+            console.log(pokemon)
+            var tempWeight = pokemon.weight
+            setWeight(tempWeight.toString());
+            setWeightLength(tempWeight.toString().length);
             setLoading(false);
         }
     };
@@ -81,20 +87,11 @@ export function Details({ route, navigation }) {
                     <Image style={styles.points} source={Points} />
                     <Text style={styles.pokemonName}>{pokemon.name}</Text>
                     <Text style={styles.pokemonId}>
-                        #{pokemonId.padStart("4", "0")}
+                        #{pokemonId.padStart(3, "0")}
                     </Text>
 
                     <View
-                        style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            zIndex: 1,
-                        }}
+                        style={styles.centered}
                     >
                         <Image
                             style={styles.pokemonImage}
@@ -113,17 +110,7 @@ export function Details({ route, navigation }) {
                         <Text>x: {x}</Text>
                         <Text>y: {y}</Text>
                         <Text>z: {z}</Text>
-                        <TouchableOpacity
-                            onPress={subscription ? _unsubscribe : _subscribe}
-                        >
-                            <Text>{subscription ? "On" : "Off"}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={_slow}>
-                            <Text>Slow</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={_fast}>
-                            <Text>Fast</Text>
-                        </TouchableOpacity>
+                        <Text>Weight : {weight.slice(0, (weightLength - 1))},{weight.slice(weightLength - 1)} kg</Text>
                     </View>
                 </>
             )}
@@ -148,7 +135,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         flex: 1,
         paddingTop: 60,
-        marginTop: 280,
+        marginTop: 320,
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
     },
@@ -164,7 +151,17 @@ const styles = StyleSheet.create({
         width: 100,
         position: "absolute",
         top: 260,
-        left: 50,
+        left: 40,
+    },
+    centered: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1,
     },
     pokemonImage: {
         height: 300,
@@ -177,11 +174,13 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 30,
         top: 100,
+        fontWeight: "bold"
     },
     pokemonId: {
         fontSize: 15,
         position: "absolute",
         right: 30,
         top: 117,
+        fontWeight: "bold"
     },
 });

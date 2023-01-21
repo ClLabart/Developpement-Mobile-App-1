@@ -16,7 +16,7 @@ export function CharactersList() {
     const [isLoading, setLoading] = useState(true);
     const [dataset, setDataset] = useState([]);
     const [offset, setOffset] = useState(0);
-    const [limit, setLimit] = useState(20);
+    const [limit, setLimit] = useState(40);
 
     const y = new Animated.Value(0);
     const onScroll = Animated.event(

@@ -12,7 +12,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PokemonFetchByIdOrName } from "../service/api/Pokemon";
 import { useNavigation } from "@react-navigation/native";
-import { CharactersLikes } from "../screens/likes/CharactersLikes";
 
 export function Liked({ pokemon }) {
     const navigation = useNavigation();
@@ -93,15 +92,15 @@ export function Liked({ pokemon }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems: "center",
         backgroundColor: "black",
         // borderRadius: 20,
         margin: 20,
     },
     image: {
-        width: 200,
-        height: 200,
+        width: 100,
+        height: 100,
     },
     text: {
         color: "white",
