@@ -55,9 +55,11 @@ export function Details({ route, navigation }) {
                     </Text>
 
                     <View style={styles.description}>
-                        <Text>Weight : {pokemon.weight.toString().slice(0, (pokemon.weight.toString().length - 1))},{pokemon.weight.toString().slice(pokemon.weight.toString().length - 1)} kg</Text>
-                        <Text>Habitat : {pokemon.habitat.name}</Text>
-                        <IsLiked id={pokemonId} style={{zIndex: 2}}/>
+                        <Text style={styles.descriptionText}>Weight : <Text style={[styles.bold]}>{pokemon.weight.toString().slice(0, (pokemon.weight.toString().length - 1))},{pokemon.weight.toString().slice(pokemon.weight.toString().length - 1)} kg</Text></Text>
+                        <Text style={styles.descriptionText}>Habitat : <Text style={[styles.bold]}>{pokemon.habitat.name}</Text></Text>
+                        <View style={styles.centered}>
+                            <IsLiked id={pokemonId} />
+                        </View>
                     </View>
 
                     <View
@@ -145,4 +147,12 @@ const styles = StyleSheet.create({
         top: 117,
         fontWeight: "bold"
     },
+    descriptionText: {
+        textAlign: "center",
+        marginVertical: 10,
+        fontSize: 18
+    },
+    bold: {
+        fontWeight: "bold"
+    }
 });

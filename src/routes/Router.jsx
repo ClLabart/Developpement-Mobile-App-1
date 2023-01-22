@@ -6,6 +6,7 @@ import { Search } from "../screens/search/Search";
 import { Profile } from "../screens/Profile/Profile";
 import { Details } from "../screens/Pokemon/Details";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ProfilePicture } from "../screens/Profile/ProfilePicture";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -13,16 +14,15 @@ const Tab = createBottomTabNavigator();
 export function Router() {
     return (
         <Stack.Navigator>
-            <Tab.Screen name="home" component={BottomDrawer}  options={{
+            <Stack.Screen name="home" component={BottomDrawer}  options={{
                     headerTransparent: true,
                     headerTitle: ''
                 }} />
-            <Tab.Group  screenOptions={{presentation: 'modal'}} >
-                <Tab.Screen screenOptions={{presentation: 'modal'}} name="Détails"  component={Details} options={{
+            <Stack.Group  screenOptions={{presentation: 'modal'}} >
+                <Stack.Screen name="Détails"  component={Details} options={{
                     headerTransparent: true,
-                    // headerRight
                 }} />
-            </Tab.Group>
+            </Stack.Group>
         </Stack.Navigator>
     );
 }
@@ -38,8 +38,7 @@ function BottomDrawer() {
         >
             <Tab.Group>
                 <Tab.Screen name="Pokedex" component={CharactersList} options={{
-                    // headerShown: false,
-                    tabBarLabel: "Pokémons",
+                    tabBarLabel: "Pokemons",
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="pokeball"
@@ -52,8 +51,8 @@ function BottomDrawer() {
                     name="CharactersLikes"
                     component={CharactersLikes}
                     options={{
-                        tabBarLabel: "Pokémons",
-                        headerTitle: 'Pokemons liked',
+                        tabBarLabel: "Liked",
+                        headerTitle: "💗 Pokemons liked",
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons
                                 name="heart-multiple"
@@ -67,7 +66,8 @@ function BottomDrawer() {
                     name="Search"
                     component={Search}
                     options={{
-                        tabBarLabel: "Recherche",
+                        tabBarLabel: "Search",
+                        headerTitle: "🔎 Search",
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons
                                 name="pokemon-go"
@@ -79,8 +79,9 @@ function BottomDrawer() {
                 />
                 <Tab.Screen
                     name="Profile"
-                    component={Profile}
+                    component={ProfileStack}
                     options={{
+                        headerShown: false,
                         tabBarLabel: "Profile",
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons
@@ -93,5 +94,18 @@ function BottomDrawer() {
                 />
             </Tab.Group>
         </Tab.Navigator>
+    );
+}
+
+function ProfileStack() {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="ProfileHome" component={Profile} options={{
+                headerTitle:"🛹 Profile"
+            }}/>
+            <Stack.Screen name="PorfilePicture" component={ProfilePicture}  options={{
+                headerTitle:"📸 Profile picture"
+            }}/>
+        </Stack.Navigator>
     );
 }

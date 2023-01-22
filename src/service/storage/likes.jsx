@@ -1,8 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export async function delFromFavorites(pokemon) {
-    console.log(pokemon)
-    // TODO à regarder
+export async function delFromFavorites(pokemon) {    // TODO à regarder
     try {
         let response = await AsyncStorage.getItem("favoritesPokmons");
         if (response !== null) {
@@ -54,7 +52,9 @@ export async function isLikedAPI(id) {
         let response = await AsyncStorage.getItem("favoritesPokmons");
         if (response !== null) {
             response = response.split(",");
-            return response.includes(id.toString())
+            if (id) {
+                return response.includes(id.toString());
+            }
         } else {
             return false;
         }
