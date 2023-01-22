@@ -1,4 +1,8 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export async function delFromFavorites(pokemon) {
+    console.log(pokemon)
+    // TODO à regarder
     try {
         let response = await AsyncStorage.getItem("favoritesPokmons");
         if (response !== null) {
@@ -11,7 +15,7 @@ export async function delFromFavorites(pokemon) {
         let unique = [...new Set(response)];
         await AsyncStorage.setItem("favoritesPokmons", unique.toString());
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 };
 
@@ -27,7 +31,7 @@ export async function addToFavorites(pokemonId) {
         let unique = [...new Set(response)];
         await AsyncStorage.setItem("favoritesPokmons", unique.toString());
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 };
 
@@ -41,25 +45,20 @@ export async function getNumberFavorites() {
         }
         return response.length;
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 }
 
-export async function isLiked(id) {
+export async function isLikedAPI(id) {
     try{
         let response = await AsyncStorage.getItem("favoritesPokmons");
-        console.log("fire")
-        console.log("response")
-        console.log(response)
         if (response !== null) {
             response = response.split(",");
-            console.log(response)
-            console.log(response.includes(id/*.toString()*/))
-            return response.includes(id/*.toString()*/)
+            return response.includes(id.toString())
         } else {
             return false;
         }
     } catch (e) {
-
+        console.error(e);
     }
 }

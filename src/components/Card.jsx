@@ -12,6 +12,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { IsLiked } from "./IsLiked";
 
 export const Card_Height = 250;
 const { height: wheight } = Dimensions.get("window");
@@ -37,24 +38,6 @@ export function Card({ pokemon, y, index }) {
 
     const getPokemonId = () => {
         setPokemonId(pokemon.url.split("/")[6]);
-    };
-
-    const addToFavorites = async () => {
-        try {
-            let response = await AsyncStorage.getItem("favoritesPokmons");
-            if (response !== null) {
-                response = response.split(",");
-            } else {
-                response = [];
-            }
-            response.push(pokemonId);
-            console.log(response);
-            let unique = [...new Set(response)];
-            console.log(unique);
-            await AsyncStorage.setItem("favoritesPokmons", unique.toString());
-        } catch (e) {
-            console.log(e);
-        }
     };
 
     useEffect(() => {
@@ -118,12 +101,7 @@ export function Card({ pokemon, y, index }) {
                             {pokemon.name.charAt(0).toUpperCase() +
                                 pokemon.name.slice(1)}
                         </Text>
-                        <Ionicons
-                            onPress={addToFavorites}
-                            name="heart-outline"
-                            size={32}
-                            color="black"
-                        />
+                        <IsLiked id={pokemonId} size={40}/>
                     </>
                 )}
             </TouchableOpacity>

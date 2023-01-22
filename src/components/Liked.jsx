@@ -7,62 +7,49 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PokemonFetchByIdOrName } from "../service/api/Pokemon";
 import { useNavigation } from "@react-navigation/native";
+import { IsLiked } from "./IsLiked";
 
 export function Liked({ pokemon }) {
     const navigation = useNavigation();
     const [isLoading, setLoading] = useState(false);
     const [image, setImage] = useState("");
     const [name, setName] = useState("");
+    const [pokemonId, setPokemonId] = useState();
 
     const fetchDetails = async () => {
-        try {
-            const response = await PokemonFetchByIdOrName(pokemon);
-            setImage(response.sprites.front_default);
-            setName(response.species.name);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const delFromFavorites = async () => {
-        console.log('pokemon : ' + pokemon)
-        try {
-            let response = await AsyncStorage.getItem("favoritesPokmons");
-            if (response !== null) {
-                response = response.split(",");
-            } else {
-                response = [];
+        if (pokemon !== "") {
+            try {
+                await PokemonFetchByIdOrName(pokemon).then((data) => {
+                    setImage("");
+                    setName("Pas de pokemon");
+                    if (data !== 'no') {
+                        setImage(data.sprites.front_default);
+                        setName(data.species.name);
+                        setPokemonId(data.id);
+                    }
+                    setLoading(false);
+                }).catch((e) => console.error(e));
+            } catch (error) {
+                console.error(error);
             }
-            console.log(response);
-            let index = response.indexOf(pokemon);
-            console.log('index : ' + index)
-            response.splice(index, 1);
-            console.log(response);
-            let unique = [...new Set(response)];
-            console.log(unique);
-            await AsyncStorage.setItem("favoritesPokmons", unique.toString());
-        } catch (e) {
-            console.log(e);
+        } else {
+            setImage("");
+            setName("Pas de pokemon");
         }
     };
 
     useEffect(() => {
         fetchDetails();
-    }, []);
+    }, [pokemon]);
 
     return (
         <View>
             <TouchableOpacity
                 style={styles.container}
-                onPress={() => navigation.navigate("Details", {
-                    pokemonId: pokemon
+                onPress={() => navigation.navigate("Détails", {
+                    pokemonId: pokemonId
                 })}
             >
                 {isLoading ? (
@@ -76,12 +63,16 @@ export function Liked({ pokemon }) {
                         <Text style={styles.text}>
                             {name.charAt(0).toUpperCase() + name.slice(1)}
                         </Text>
-                        <Ionicons
-                            onPress={delFromFavorites}
-                            name="star"
-                            size={32}
-                            color="yellow"
-                        />
+                        {name !== "Pas de pokemon"? (
+                            <View style={styles.like}>
+                                <IsLiked
+                                    id={pokemonId}
+                                    size={32}
+                                />
+                            </View>
+                        ):(
+                            <></>
+                        )}
                     </>
                 )}
             </TouchableOpacity>
@@ -91,18 +82,23 @@ export function Liked({ pokemon }) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        flexDirection: "column",
+        width: "90%",
+        flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "black",
-        // borderRadius: 20,
+        justifyContent: "center",
         margin: 20,
+    },
+    text: {
+        marginLeft: 20
     },
     image: {
         width: 100,
         height: 100,
+        borderRadius: 20,
+        borderColor: "black",
+        borderWidth: 1
     },
-    text: {
-        color: "white",
-    },
+    like: {
+        marginLeft: 10
+    }
 });

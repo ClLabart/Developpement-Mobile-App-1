@@ -11,7 +11,6 @@ export function CharactersLikes(props) {
     const getFavorites = async () => {
         try {
             const value = await AsyncStorage.getItem("favoritesPokmons");
-            console.log(value);
             if (value !== null) {
                 setDataset(value.split(","));
             } else {
@@ -53,11 +52,8 @@ export function CharactersLikes(props) {
                         data={dataset}
                         onRefresh={onRefresh}
                         refreshing={refreshing}
-                        style={{ width: "100%" }}
                         extraData={dataset}
                         renderItem={(obj) => <Liked pokemon={obj.item} />}
-                        numColumns={2}
-
                     />
                 </>
             )}

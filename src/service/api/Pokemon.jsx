@@ -21,12 +21,12 @@ export async function PokemonFetch(offset, limit) {
 
 export async function PokemonFetchByIdOrName(id) {
     try {
-        url = "https://pokeapi.co/api/v2/pokemon/" + id;
+        url = "https://pokeapi.co/api/v2/pokemon/" + id.toLowerCase();
         const response = await fetch(url);
         const json = await response.json();
         return json;
     } catch (error) {
-        console.error(error);
+        return 'no';
     }
 }
 
