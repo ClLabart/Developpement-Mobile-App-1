@@ -1,9 +1,14 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export function ProfilePicture() {
     const [permission, requestPermission] = Camera.useCameraPermissions();
+    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+    const [image, setImage] = useState(null);
+    const [camera, setCamera] = useState(null);
+    const [type, setType] = useState(Camera.Constants.Type.back);
 
     // if (!permission) ...
 
@@ -15,10 +20,6 @@ export function ProfilePicture() {
         );
     }
 
-    const [hasCameraPermission, setHasCameraPermission] = useState(null);
-    const [camera, setCamera] = useState(null);
-    const [image, setImage] = useState(null);
-    const [type, setType] = useState(Camera.Constants.Type.back);
     useEffect(() => {
         (async () => {
             const cameraStatus = await Camera.requestCameraPermissionsAsync();
@@ -28,8 +29,10 @@ export function ProfilePicture() {
 
     const takePicture = async () => {
         if (camera) {
-            const data = await camera.takePictureAsync(null);
-            console.log(data);
+            const data = await camera.takePictureAsync();
+            await AsyncStorage.setItem('profilePic', JSON.stringify(data));
+        } else {
+            console.log('no camera');
         }
     };
 
@@ -39,7 +42,7 @@ export function ProfilePicture() {
 
     return (
         <View style={styles.container}>
-            <Camera style={styles.camera} type={type}>
+            <Camera style={styles.camera} type={type} ref={(r) => {setCamera(r);}}>
                 <View style={styles.buttonContainer}>
                     <View style={styles.containerCenter}>
                         <TouchableOpacity
@@ -64,9 +67,12 @@ export function ProfilePicture() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
     },
     camera: {
-        flex: 1,
+        height: "auto",
+        aspectRatio: 2/3,
     },
     buttonContainer: {
         flex: 1,

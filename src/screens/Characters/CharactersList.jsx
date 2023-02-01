@@ -67,18 +67,13 @@ export function CharactersList() {
                     }}
                     style={{ width: "100%" }}
                     keyExtractor={(item, index) => "key" + index}
-                    renderItem={(obj) => <Card pokemon={obj.item} y={y} index={obj.index}/>}
+                    renderItem={(obj) => (
+                        <Card pokemon={obj.item} y={y} index={obj.index} />
+                    )}
                     scrollEventThrottle={16}
-                    {...{onScroll}}
+                    {...{ onScroll }}
                 />
             )}
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    tinyLogo: {
-        width: 50,
-        height: 50,
-    },
-});

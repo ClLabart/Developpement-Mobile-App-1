@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export async function delFromFavorites(pokemon) {    // TODO à regarder
+export async function delFromFavorites(pokemon) {    
+    // TODO à débug normalement ça fonctionne bien mais sur la page fav le mauvais disparait
     try {
         let response = await AsyncStorage.getItem("favoritesPokmons");
         if (response !== null) {
