@@ -81,7 +81,7 @@ export function Card({ pokemon, y, index }) {
             <TouchableOpacity
                 style={[
                     styles.container,
-                    { opacity, transform: [{ translateY }, { scale }] },
+                    { opacity, transform: [{ translateY }, { scale }] }
                 ]}
                 onPress={() =>
                     navigation.navigate("Détails", {
@@ -114,14 +114,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         alignItems: "center",
-        // justifyContent: "center",
         borderRadius: 20,
         margin: 20,
         height: 210,
         borderBottomColor: "black",
         borderBottomWidth: 15,
-        // backgroundColor: "#F2F2F2",
-        // backgroundColor: "white",
     },
     image: {
         width: 200,

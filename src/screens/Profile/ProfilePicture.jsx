@@ -5,7 +5,7 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export function ProfilePicture() {
     const [permission, requestPermission] = Camera.useCameraPermissions();
-    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+    const [hasCameraPermission, setHasCameraPermission] = useState(false);
     const [image, setImage] = useState(null);
     const [camera, setCamera] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
